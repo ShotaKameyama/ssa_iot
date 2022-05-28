@@ -1,0 +1,10 @@
+paho-mqtt
+
+# Test
+pytest
+pytest-html
+
+# Guideline Enforcement
+pylint
+flake8
+flake8-html
