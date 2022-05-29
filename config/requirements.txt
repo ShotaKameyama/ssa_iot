@@ -8,3 +8,7 @@ pytest-html
 pylint
 flake8
 flake8-html
+
+# Camera
+opencv-python
+matplotlib
