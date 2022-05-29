@@ -39,7 +39,7 @@ def on_message(client, userdata, msg):
             "Captured",
             c['mqtt']['qos'])
 
-client = mqtt.Client()
+client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.on_connect = on_connect
 client.on_message = on_message
 

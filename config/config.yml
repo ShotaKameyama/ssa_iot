@@ -17,9 +17,8 @@ client_camera:
   publish:
     - Message2Controller
 controller:
-  device_1:
-    name: IoT Controller
-    subscribe:
-      - Message2Controller
-    publish:
-      - DoorCamera
+  name: IoT Controller
+  subscribe:
+    - Message2Controller
+  publish:
+    - DoorCamera
