@@ -36,6 +36,7 @@ make install
 2. `vim mosquitto.conf` and add the following lines
 
 ```
+listener 1883
 allow_anonymous false
 password_file ./filename
 ```
