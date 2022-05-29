@@ -29,6 +29,23 @@ python3 -m venv pymyenv
 make install
 ```
 
+# IoT Client Doorlock MQTT Subscribe
+
+```
+python iot_client_doorlock.py
+```
+
+# IoT Doorlock MQTT Publish
+
+Publish Open Request
+```
+python iot_publish_doorlock.py Open
+```
+
+Publish Close Request
+```
+python iot_publish_doorlock.py Close
+```
 
 # How to force authentication on Mosquitto
 
