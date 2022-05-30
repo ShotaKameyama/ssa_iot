@@ -7,6 +7,10 @@ pyyaml
 pytest
 pytest-html
 
+# perf test
+locust
+locust-plugins
+
 # Guideline Enforcement
 pylint
 flake8

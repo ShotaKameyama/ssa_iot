@@ -105,6 +105,24 @@ password_file ./filename
 
 3. run `mosquitto -c mosquitto.conf`
 
+# How to do perf test
+
+## Prerequisite
+
+- MacOS: You need to install the following libraries to pass `make install`
+  - `brew install postgresql`
+  - `brew install librdkafka`
+  - if M1 then run either of the following:
+    - `C_INCLUDE_PATH=/opt/homebrew/Cellar/librdkafka/1.8.2/include LIBRARY_PATH=/opt/homebrew/Cellar/librdkafka/1.8.2/lib pip install confluent_kafka`
+    - `CPATH=/opt/homebrew/Cellar/librdkafka/1.8.2/include pip install confluent-kafka`
+    - Ref: [confluent-kafka-python github issue](https://github.com/confluentinc/confluent-kafka-python/issues/1190)
+
+## How to run perf test
+
+1. run `locust`
+2. Open `http://0.0.0.0:8089/` on your browser
+3. Set the values and start the test
+
 # How to contribute
 
 To contribute to this project, follow these steps:
