@@ -2,31 +2,73 @@
 
 The following should be installed already before setup.
 - Python3
+- Mosquitto Installed
+
+## how to install mosquitto
+
+- MacOS: `brew install mosquitto`
+- Linux:
+- Debian: `apt-get update && apt-get install mosquitto`
+- Windows: 
 
 # Getting Started
 
-```
-git clone https://github.com/ShotaKameyama/ssa_iot.git
-```
-
-## MacOS
+## Install Necessary Source Code and Libraries
 
 ```
-brew install mosquitto
+git clone https://github.com/ShotaKameyama/ssa_iot.git`
+cd ssa_iot
 make install
 ```
 
-## Linux
+## Change Config
 
+Change `config/config.yml` as necessary.
+If you need remote access against the MQTT braker, you need to change `mqtt.host`.
 
-## Windows
+# Basic Inforamtion
 
-## Virtualization
+This IoT system consists of 4 instances:
+- MQTT braker
+- IoT Controller
+- IoT Camera
+- IoT DoorLock
+
+You should start 4 instances parallel.
+
+Instance 1
+
+```
+mosquitto
+```
+
+Instance 2
+
+```
+python3 iot_controller.py
+```
+
+Instance 3
+
+```
+python3 iot_client_doorlock.py
+```
+
+Instance 4
+
+```
+python3 iot_client_camera.py
+```
+
+Then, start publishing the message to test the response. Please follow "IoT  Doorlock MQTT Publish" to see how to test.
+
+# Virtualization
+
+if you need a virtualization, you can use `venv`.
 
 ```
 python3 -m venv pymyenv
 . pymyenv/bin/activate
-make install
 ```
 
 # IoT Client Doorlock MQTT Subscribe

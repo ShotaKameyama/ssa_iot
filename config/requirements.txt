@@ -1,5 +1,8 @@
 paho-mqtt
 
+# Utility
+pyyaml
+
 # Test
 pytest
 pytest-html
@@ -8,3 +11,7 @@ pytest-html
 pylint
 flake8
 flake8-html
+
+# Camera
+opencv-python
+matplotlib
