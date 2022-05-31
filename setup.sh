@@ -23,6 +23,7 @@ echo "export CLIENT_CAMERA_USER=${client_camera}" >> ~/.bash_profile
 echo "export CLIENT_CAMERA_PASSWORD=${client_camera_pass}" >> ~/.bash_profile
 echo "export CONTROLLER_USER=${controller}" >> ~/.bash_profile
 echo "export CONTROLLER_PASSWORD=${controller_pass}" >> ~/.bash_profile
+source ~/.bash_profile
 
 # Summary
 echo "MQTT host: ${host}"
@@ -41,16 +42,20 @@ echo "------ Create ACL File Start -------"
 echo "Creating an access control file"
 touch ./config/mosquitto.acl
 echo "user ${controller}" >> ./config/mosquitto.acl
-echo "topic read device/+/message/%u" >> ./config/mosquitto.acl
-echo "topic write device/%u/order/+" >> ./config/mosquitto.acl
+echo "topic read device/${client_lock}/message/${controller}" >> ./config/mosquitto.acl
+echo "topic read device/${client_camera}/message/${controller}" >> ./config/mosquitto.acl
+echo "topic write device/${controller}/order/${client_lock}" >> ./config/mosquitto.acl
+echo "topic write device/${controller}/order/${client_camera}" >> ./config/mosquitto.acl
 echo "" >> ./config/mosquitto.acl
+
 echo "user ${client_lock}" >> ./config/mosquitto.acl
-echo "topic read device/${controller}/order/%u" >> ./config/mosquitto.acl
-echo "topic write device/%u/message/${controller}" >> ./config/mosquitto.acl
+echo "topic read device/${controller}/order/${client_lock}" >> ./config/mosquitto.acl
+echo "topic write device/${client_lock}/message/${controller}" >> ./config/mosquitto.acl
 echo "" >> ./config/mosquitto.acl
+
 echo "user ${client_camera}" >> ./config/mosquitto.acl
-echo "topic read device/${controller}/order/%u" >> ./config/mosquitto.acl
-echo "topic write device/%u/message/${controller}" >> ./config/mosquitto.acl
+echo "topic read device/${controller}/order/${client_camera}" >> ./config/mosquitto.acl
+echo "topic write device/${client_camera}/message/${controller}" >> ./config/mosquitto.acl
 echo "Created an access control file. Please look at ./config/mosquitto.acl"
 echo "------ Create ACL File End -------"
 
@@ -64,7 +69,7 @@ echo "Created a Mosquitto user file. Please look at ./config/mosquitto.pass"
 echo "------ Create Mosquitto User END -------"
 echo "------ Create Mosquitto Config File Start -------"
 touch ./config/mosquitto.conf
-echo "listner ${port}" >> ./config/mosquitto.conf
+echo "listener ${port}" >> ./config/mosquitto.conf
 echo "allow_anonymous false" >> ./config/mosquitto.conf
 echo "password_file ./config/mosquitto.pass" >> ./config/mosquitto.conf
 echo "acl_file ./config/mosquitto.acl" >> ./config/mosquitto.conf
