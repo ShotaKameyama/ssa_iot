@@ -21,10 +21,21 @@ cd ssa_iot
 make install
 ```
 
-## Change Config
+## Setup env variables and mosquitto config files.
 
-Change `config/config.yml` as necessary.
-If you need remote access against the MQTT braker, you need to change `mqtt.host`.
+As we use access controll using username and password, hence we use env variables to avoid info leakage by the source code.
+
+```
+chmod +x setup.sh 
+./setup.sh
+```
+
+This shell script will take care of the following:
+1. Create Mosquitto Access Control List File: `./config/mosquitto.acl`
+2. Create Mosquitto User Credential File: `./config/mosquitto.pass`
+3. Create Mosquitto Config File: `./config/mosquitto.conf`
+4. Add Environment Variables to `~/.bash_profile`
+
 
 # Basic Inforamtion
 

@@ -1,7 +1,7 @@
 paho-mqtt
 
 # Utility
-pyyaml
+pyaml-env
 
 # Test
 pytest

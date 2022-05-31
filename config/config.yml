@@ -1,24 +1,32 @@
 mqtt:
-  host: localhost #10.54.34.89
-  port: 1883
+  host: !ENV ${MQTT_HOST}
+  port: !ENV ${MQTT_PORT}
   qos: 2
   keep_alive: 60
 client_lock:
   name: Smart Door Lock
+  user: !ENV ${CLIENT_LOCK_USER}
+  password: !ENV ${CLIENT_LOCK_PASSWORD}
   subscribe:
-    - Door_Request
+    controller: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_LOCK_USER}'
   publish:
-    - Message2Controller
+    controller: !ENV 'device/${CLIENT_LOCK_USER}/message/${CONTROLLER_USER}'
 client_camera:
   name: Security/Scan Camera
-  vid_cap: 0 # Change to 1, 2, 3... as necessary
+  user: !ENV ${CLIENT_CAMERA_USER}
+  password: !ENV ${CLIENT_CAMERA_PASSWORD}
   subscribe:
-    - DoorCamera
+    controller: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_CAMERA_USER}'
   publish:
-    - Message2Controller
+    controller: !ENV 'device/${CLIENT_CAMERA_USER}/message/${CONTROLLER_USER}'
+  vid_cap: 0 # Change to 1, 2, 3... as necessary
 controller:
   name: IoT Controller
+  user: !ENV ${CONTROLLER_USER}
+  password: !ENV ${CONTROLLER_PASSWORD}
   subscribe:
-    - Message2Controller
+    lock: !ENV 'device/${CLIENT_LOCK_USER}/message/${CONTROLLER_USER}'
+    camera: !ENV 'device/${CLIENT_CAMERA_USER}/message/${CONTROLLER_USER}'
   publish:
-    - DoorCamera
+    lock: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_LOCK_USER}'
+    camera: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_CAMERA_USER}'
