@@ -8,3 +8,9 @@ pytest-html
 pylint
 flake8
 flake8-html
+
+# CO2 Sensor
+mh_z19
+
+# Scheduler
+schedule
