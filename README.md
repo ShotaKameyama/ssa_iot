@@ -50,7 +50,7 @@ You should start 4 instances parallel.
 Instance 1
 
 ```
-mosquitto
+mosquitto -c config/mosquitto.conf
 ```
 
 Instance 2
