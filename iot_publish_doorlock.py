@@ -6,7 +6,7 @@ import sys
 from paho.mqtt import publish
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
-config =  BaseConfig(parse_config('./config/config.yml'))
+config = BaseConfig(parse_config('./config/config.yml'))
 
 if len(sys.argv) == 1:
     # Missing arguments
@@ -14,7 +14,7 @@ if len(sys.argv) == 1:
 
 if sys.argv[1] in ("Open", "Close"):
     # Door Open / Close request
-    print (sys.argv[1])
+    print(sys.argv[1])
     publish.single(
         config.controller.publish.lock,
         payload=sys.argv[1],

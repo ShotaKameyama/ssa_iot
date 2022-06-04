@@ -1,13 +1,15 @@
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
 
-config =  BaseConfig(parse_config('./config/config.yml'))
-door_messages = ["b'Door Opened'","b'Door Closed'"]
+config = BaseConfig(parse_config('./config/config.yml'))
+door_messages = ["b'Door Opened'", "b'Door Closed'"]
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe(
         config.controller.subscribe.lock)
+
 
 def on_message(client, userdata, msg):
     req = str(msg.payload)
@@ -17,6 +19,7 @@ def on_message(client, userdata, msg):
             config.controller.publish.camera,
             "Capture",
             config.mqtt.qos)
+
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.username_pw_set(
