@@ -4,27 +4,22 @@ iot_publish_doorlock.py without auth and tls
 
 import sys
 from paho.mqtt import publish
-import paho.mqtt.client as mqtt
-from pyaml_env import parse_config, BaseConfig
-config =  BaseConfig(parse_config('./config/config.yml'))
 
-if len(sys.argv) == 1:
+HOST = ""
+REQUEST = ""
+certPath = 'certs/ca.crt'
+
+if len(sys.argv) == 3:
+    HOST = str(sys.argv[1])
+    REQUEST = str(sys.argv[2])
+else:
     # Missing arguments
-    print("Missing arguments. Usage: iot_publish_doorlock.py <Request>")
+    print("Missing arguments. Usage: iot_publish_doorlock.py <Host> <Request>")
 
-if sys.argv[1] in ("Open", "Close"):
+if REQUEST in ("Open", "Close"):
     # Door Open / Close request
-    print (sys.argv[1])
-    publish.single(
-        config.controller.publish.lock,
-        payload=sys.argv[1],
-        qos=config.mqtt.qos,
-        hostname=config.mqtt.host,
-        port=int(config.mqtt.port),
-        protocol=mqtt.MQTTv311,
-        auth={
-            'username': config.controller.user,
-            'password': config.controller.password
-        })
-    print("published to: " + config.controller.publish.lock)
-    print("payload: " + sys.argv[1])
+    tls = {'ca_certs': certPath}
+    # auth = {'username': "<username>", 'password': "<password>"}
+    # publish.single("Door_Request", REQUEST, qos=2, hostname=HOST, tls=tls)
+    publish.single("Door_Request", payload="ON", qos=2, retain=False, hostname="localhost",
+                   port=8883, tls=tls)
