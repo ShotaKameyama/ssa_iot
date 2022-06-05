@@ -6,6 +6,8 @@ Use the connected USB camera and provide the following functions:
 import datetime
 # Import opencv for computer vision
 import cv2
+from pyzbar.pyzbar import decode
+from pyzbar.pyzbar import ZBarSymbol
 from pyaml_env import parse_config, BaseConfig
 
 config = BaseConfig(parse_config('./config/config.yml'))
@@ -26,6 +28,28 @@ def take_photo():
     ret, frame = cap.read()
     print(ret)
     # Save into a picture
-    cv2.imwrite(dt_now_format + '_capture.jpg', frame)
+    cv2.imwrite('static/capture/' + dt_now_format + '_capture.jpg', frame)
     # Release the connection
     cap.release()
+
+def capture_qr_code():
+    cap = cv2.VideoCapture(
+        config.client_camera.vid_cap)
+    if cap.isOpened() is False:
+        raise("IO Error")
+
+    while True:
+        ret, frame = cap.read()
+        if ret == False:
+            continue
+        
+        #decode
+        value = decode(frame, symbols=[ZBarSymbol.QRCODE])
+
+        if value:
+            for qrcode in value:
+                dec_info = qrcode.data.decode('utf-8')
+                break
+            break
+    
+    return dec_info

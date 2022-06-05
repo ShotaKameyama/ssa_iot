@@ -29,8 +29,8 @@ def on_message(client, userdata, msg):
     capture a picture and return the message.
     '''
     print_message(client, userdata, msg)
-    req = str(msg.payload)
-    if req == "b'Capture'":
+    req = str(msg.payload.decode("utf-8"))
+    if req == "Capture":
         take_photo()
         client.publish(
             config.client_camera.publish.controller,

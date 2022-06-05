@@ -30,3 +30,6 @@ controller:
   publish:
     lock: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_LOCK_USER}'
     camera: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_CAMERA_USER}'
+qr:
+  code:
+    - 589SD463215SW657asd3321ad123ADGA

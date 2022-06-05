@@ -19,3 +19,4 @@ flake8-html
 # Camera
 opencv-python
 matplotlib
+pyzbar
