@@ -32,18 +32,22 @@ def take_photo():
     # Release the connection
     cap.release()
 
+
 def capture_qr_code():
+    '''
+    Detect QR code and return the QR code value
+    '''
     cap = cv2.VideoCapture(
         config.client_camera.vid_cap)
     if cap.isOpened() is False:
-        raise("IO Error")
+        raise "IO Error" # pylint: disable-msg=E0702
 
     while True:
         ret, frame = cap.read()
-        if ret == False:
+        if ret is False:
             continue
-        
-        #decode
+
+        # decode
         value = decode(frame, symbols=[ZBarSymbol.QRCODE])
 
         if value:
@@ -51,5 +55,5 @@ def capture_qr_code():
                 dec_info = qrcode.data.decode('utf-8')
                 break
             break
-    
+
     return dec_info

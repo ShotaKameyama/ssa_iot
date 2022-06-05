@@ -11,6 +11,7 @@ door_messages = ["Door Opened", "Door Closed"]
 topic = [(config.controller.subscribe.lock, config.mqtt.qos),
          (config.controller.subscribe.camera, config.mqtt.qos)]
 
+
 def on_connect(client, userdata, flags, rc):
     '''
     when connected to the MQTT client,
