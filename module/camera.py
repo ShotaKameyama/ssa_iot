@@ -40,7 +40,7 @@ def capture_qr_code():
     cap = cv2.VideoCapture(
         config.client_camera.vid_cap)
     if cap.isOpened() is False:
-        raise "IO Error" # pylint: disable-msg=E0702
+        raise "IO Error"  # pylint: disable-msg=E0702
 
     while True:
         ret, frame = cap.read()

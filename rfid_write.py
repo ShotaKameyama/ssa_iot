@@ -1,4 +1,7 @@
-import RPi.GPIO as GPIO
+'''
+This module enables register data on RFID
+'''
+from RPi import GPIO
 from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
