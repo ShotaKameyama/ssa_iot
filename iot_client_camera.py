@@ -1,39 +1,35 @@
-# Import opencv for computer vision
-import cv2
-# Import paho as mqtt client
-import paho.mqtt.client as mqtt
-import datetime
+'''
+This module represents camera iot client, which
+subscribe the messagae from controller and
+take a picture when ordered.
+'''
 from pyaml_env import parse_config, BaseConfig
+from module.camera import take_photo
+from module.mqtt_connector import connect_mqtt, print_connect, print_message
 
 config = BaseConfig(parse_config('./config/config.yml'))
 
 
-dt_now = datetime.datetime.now()
-dt_now_format = dt_now.strftime('%Y-%m-%d-%H%M%S')
-
-
-def take_photo():
-    # Connect to capture device
-    cap = cv2.VideoCapture(
-        config.client_camera.vid_cap
-    )
-    # Get a frame from the capture device
-    ret, frame = cap.read()
-    # Save into a picture
-    cv2.imwrite(dt_now_format + '_capture.jpg', frame)
-    # Release the connection
-    cap.release()
-
-
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    '''
+    when connected to the MQTT client,
+    subscribe controller message.
+    '''
+    print_connect(client, userdata, flags, rc)
     client.subscribe(
         config.client_camera.subscribe.controller)
+    print("Subscribed to: " + config.client_camera.subscribe.controller)
 
 
 def on_message(client, userdata, msg):
+    '''
+    when message delivered on MQTT,
+    Show client, userdata and messages.
+    And if the message is "Capture", then
+    capture a picture and return the message.
+    '''
+    print_message(client, userdata, msg)
     req = str(msg.payload)
-    print(msg.topic + " " + req)
     if req == "b'Capture'":
         take_photo()
         client.publish(
@@ -42,15 +38,10 @@ def on_message(client, userdata, msg):
             config.mqtt.qos)
 
 
-client = mqtt.Client(protocol=mqtt.MQTTv311)
-client.username_pw_set(
-    config.client_camera.user,
-    config.client_camera.password)
-client.on_connect = on_connect
-client.on_message = on_message
-
-client.connect(
-    config.mqtt.host,
-    int(config.mqtt.port),
-    config.mqtt.keep_alive)
-client.loop_forever()
+if __name__ == "__main__":
+    connect_mqtt(
+        config.client_camera.user,
+        config.client_camera.password,
+        on_connect,
+        on_message
+    )
