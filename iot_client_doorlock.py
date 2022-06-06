@@ -1,8 +1,9 @@
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
 
-config =  BaseConfig(parse_config('./config/config.yml'))
-door_requests = {"b'Open'": "Door Opened", "b'Close'":"Door Closed"}
+config = BaseConfig(parse_config('./config/config.yml'))
+door_requests = {"b'Open'": "Door Opened", "b'Close'": "Door Closed"}
+
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -13,7 +14,8 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(
         config.client_lock.subscribe.controller
     )
-    print ("Subscribed to: " + config.client_lock.subscribe.controller)
+    print("Subscribed to: " + config.client_lock.subscribe.controller)
+
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -24,6 +26,7 @@ def on_message(client, userdata, msg):
             config.client_lock.publish.controller,
             door_requests[req],
             config.mqtt.qos)
+
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.username_pw_set(

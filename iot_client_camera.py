@@ -2,16 +2,15 @@
 import cv2
 # Import paho as mqtt client
 import paho.mqtt.client as mqtt
-# Import metaplotlib to visualize an image
-from matplotlib import pyplot as plt
 import datetime
 from pyaml_env import parse_config, BaseConfig
 
-config =  BaseConfig(parse_config('./config/config.yml'))
+config = BaseConfig(parse_config('./config/config.yml'))
 
 
 dt_now = datetime.datetime.now()
 dt_now_format = dt_now.strftime('%Y-%m-%d-%H%M%S')
+
 
 def take_photo():
     # Connect to capture device
@@ -21,7 +20,7 @@ def take_photo():
     # Get a frame from the capture device
     ret, frame = cap.read()
     # Save into a picture
-    cv2.imwrite(dt_now_format + '_capture.jpg',frame)
+    cv2.imwrite(dt_now_format + '_capture.jpg', frame)
     # Release the connection
     cap.release()
 
@@ -30,6 +29,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
     client.subscribe(
         config.client_camera.subscribe.controller)
+
 
 def on_message(client, userdata, msg):
     req = str(msg.payload)
@@ -40,6 +40,7 @@ def on_message(client, userdata, msg):
             config.client_camera.publish.controller,
             "Captured",
             config.mqtt.qos)
+
 
 client = mqtt.Client(protocol=mqtt.MQTTv311)
 client.username_pw_set(

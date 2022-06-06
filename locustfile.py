@@ -15,7 +15,7 @@ class MyUser(MqttUser):
     host = "localhost"
     port = 1883
     # tls_context = tls_context
-    
+
     # We could uncomment below to use the WebSockets transport
     # transport = "websockets"
     # ws_path = "/mqtt/custom/path"
@@ -32,4 +32,4 @@ class MyUser(MqttUser):
 
         @task
         def pub(self):
-            self.client.publish("Door_Request", b"Open", 2)    
+            self.client.publish("Door_Request", b"Open", 2)
