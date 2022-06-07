@@ -1,3 +1,8 @@
+'''
+This file provides a performance testing against the
+MQTT connected device using Locust and its plugin.
+'''
+
 # import os
 # import ssl
 import time
@@ -12,6 +17,9 @@ from locust_plugins.users import MqttUser
 
 
 class MyUser(MqttUser):
+    '''
+    apply MqttUser to the class
+    '''
     host = "localhost"
     port = 1883
     # tls_context = tls_context
@@ -26,10 +34,20 @@ class MyUser(MqttUser):
 
     @task
     class MyTasks(TaskSet):
-        # Sleep for a while to allow the client time to connect.
+        '''
+        Define the actual actions when start locust
+        and test scenarios.
+        '''
+
         def on_start(self):
+            '''
+            Sleep for a while to allow the client time to connect.
+            '''
             time.sleep(5)
 
         @task
         def pub(self):
+            '''
+            Locust task: publish messages.
+            '''
             self.client.publish("Door_Request", b"Open", 2)

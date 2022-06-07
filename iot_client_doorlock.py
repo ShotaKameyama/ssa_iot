@@ -1,5 +1,10 @@
-import paho.mqtt.client as mqtt
+'''
+This file works as a door lock iot client that supports the following:
+1. subscribe controller message
+2. Open/Close the door lock when ordered.
+'''
 from pyaml_env import parse_config, BaseConfig
+from module.mqtt_connector import connect_mqtt, print_connect, print_message
 
 config = BaseConfig(parse_config('./config/config.yml'))
 door_requests = {"b'Open'": "Door Opened", "b'Close'": "Door Closed"}
@@ -7,10 +12,11 @@ door_requests = {"b'Open'": "Door Opened", "b'Close'": "Door Closed"}
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
-
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
+    '''
+    when connected to the MQTT client,
+    subscribe controller message.
+    '''
+    print_connect(client, userdata, flags, rc)
     client.subscribe(
         config.client_lock.subscribe.controller
     )
@@ -19,8 +25,15 @@ def on_connect(client, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
+    '''
+    when message delivered on MQTT,
+    Show client, userdata and messages.
+    When order received,
+    publish a message to controller the result of door order
+
+    '''
     req = str(msg.payload)
-    print(msg.topic + " " + req)
+    print_message(client, userdata, msg)
     if req in door_requests:
         client.publish(
             config.client_lock.publish.controller,
@@ -28,19 +41,10 @@ def on_message(client, userdata, msg):
             config.mqtt.qos)
 
 
-client = mqtt.Client(protocol=mqtt.MQTTv311)
-client.username_pw_set(
-    config.client_lock.user,
-    config.client_lock.password)
-client.on_connect = on_connect
-client.on_message = on_message
-
-client.connect(
-    config.mqtt.host,
-    int(config.mqtt.port),
-    config.mqtt.keep_alive)
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
-client.loop_forever()
+if __name__ == "__main__":
+    connect_mqtt(
+        config.client_lock.user,
+        config.client_lock.password,
+        on_connect,
+        on_message
+    )
