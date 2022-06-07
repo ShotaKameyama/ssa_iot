@@ -71,24 +71,19 @@ Instance 4
 python3 iot_client_camera.py
 ```
 
-Then, start publishing the message to test the response. Please follow "IoT  Doorlock MQTT Publish" to see how to test.
+## How to read QR code?
 
-# Virtualization
-
-if you need a virtualization, you can use `venv`.
+Once you configured 4 instances, then you can start reading qr code using your USB camera.
 
 ```
-python3 -m venv pymyenv
-. pymyenv/bin/activate
+python3 qr_read.py
 ```
 
-# IoT Client Doorlock MQTT Subscribe
+Then read a qr file under `static/qr` 
 
-```
-python iot_client_doorlock.py
-```
+## IoT Doorlock MQTT Publish
 
-# IoT Doorlock MQTT Publish
+Alternatively, you can do the following to do the same.
 
 ```
 Usage: iot_publish_doorlock.py <Request>
@@ -101,6 +96,16 @@ python iot_publish_doorlock.py Open
 Publish Close Request Sample
 ```
 python iot_publish_doorlock.py Close
+```
+
+
+# Virtualization
+
+if you need a virtualization, you can use `venv`.
+
+```
+python3 -m venv pymyenv
+. pymyenv/bin/activate
 ```
 
 # How to force authentication on Mosquitto
@@ -116,10 +121,12 @@ if you don't have the `mosquitto.conf` file, make sure that you have run `./setu
 - MacOS: You need to install the following libraries to pass `make install`
   - `brew install postgresql`
   - `brew install librdkafka`
+  - `brew install zbar`
   - if M1 then run either of the following:
     - `C_INCLUDE_PATH=/opt/homebrew/Cellar/librdkafka/1.8.2/include LIBRARY_PATH=/opt/homebrew/Cellar/librdkafka/1.8.2/lib pip install confluent_kafka`
     - `CPATH=/opt/homebrew/Cellar/librdkafka/1.8.2/include pip install confluent-kafka`
     - Ref: [confluent-kafka-python github issue](https://github.com/confluentinc/confluent-kafka-python/issues/1190)
+    - ` mkdir ~/lib && ln -s $(brew --prefix zbar)/lib/libzbar.dylib ~/lib/libzbar.dylib`
 
 ## How to run perf test
 

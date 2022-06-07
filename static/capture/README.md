@@ -1,0 +1,1 @@
+This directory will store caprtured image files.
