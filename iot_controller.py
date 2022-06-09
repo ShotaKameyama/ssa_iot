@@ -30,18 +30,19 @@ def on_message(client, userdata, msg):
     And publish a message to camera to capture a picture,
     when the door message is either Door Opened/Closed.
     '''
-    req = str(msg.payload.decode("utf-8"))
+    req = str(msg.payload.decode("utf-8")).strip()
     print_message(client, userdata, msg)
+    print(req)
     if req in door_messages:
         client.publish(
             config.controller.publish.camera,
             "Capture",
             config.mqtt.qos)
     if req in config.qr.code:
-        print("...checking QR Code")
-        time.sleep(3)
-        print("...QR Code Verified")
-        time.sleep(1)
+        print("...checking QR/RFID Code")
+        # time.sleep(3)
+        print("...Code Verified")
+        # time.sleep(1)
         print("...Door Open")
         client.publish(
             config.controller.publish.lock,

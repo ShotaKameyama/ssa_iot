@@ -10,7 +10,9 @@ import time
 from locust import task, TaskSet
 from locust.user.wait_time import between
 from locust_plugins.users import MqttUser
+from pyaml_env import parse_config, BaseConfig
 
+config = BaseConfig(parse_config('./config/config.yml'))
 
 # tls_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 # tls_context.load_verify_locations(os.environ["LOCUST_MQTT_CAFILE"])
@@ -20,8 +22,8 @@ class MyUser(MqttUser):
     '''
     apply MqttUser to the class
     '''
-    host = "localhost"
-    port = 1883
+    host = config.mqtt.host
+    port = int(config.mqtt.port)
     # tls_context = tls_context
 
     # We could uncomment below to use the WebSockets transport
@@ -50,4 +52,10 @@ class MyUser(MqttUser):
             '''
             Locust task: publish messages.
             '''
-            self.client.publish("Door_Request", b"Open", 2)
+            self.client.username_pw_set(
+                config.client_camera.user,
+                config.client_camera.password)
+            self.client.publish(
+                config.client_camera.publish.controller,
+                config.qr.code[0],
+                config.mqtt.qos)
