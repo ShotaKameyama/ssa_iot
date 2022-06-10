@@ -16,7 +16,7 @@ The following should be installed already before setup.
 ## Install Necessary Source Code and Libraries
 
 ```
-git clone https://github.com/ShotaKameyama/ssa_iot.git`
+git clone https://github.com/ShotaKameyama/ssa_iot.git
 cd ssa_iot
 make install
 ```
@@ -37,10 +37,10 @@ This shell script will take care of the following:
 4. Add Environment Variables to `~/.bash_profile`
 
 
-# Basic Inforamtion
+# Basic Information
 
 This IoT system consists of 4 instances:
-- MQTT braker
+- MQTT broker
 - IoT Controller
 - IoT Camera
 - IoT DoorLock
@@ -50,25 +50,73 @@ You should start 4 instances parallel.
 Instance 1
 
 ```
+First run
+brew install librdkafka
+
+then
+make install
+
+To view brew services to make sure mosquitto has started
+brew services list
+
+then run
+git branch
+git log
+git pull
+
+then
 mosquitto -c config/mosquitto.conf
+
+and
+brew services start mosquitto
+ 
 ```
 
 Instance 2
 
 ```
+cd ssa_iot
+
+source ~/.bash_profile
+
 python3 iot_controller.py
 ```
 
 Instance 3
 
 ```
+cd ssa_iot 
+
+source ~/.bash_profile
+
 python3 iot_client_doorlock.py
 ```
 
 Instance 4
 
 ```
+First run these commands:
+
+pip install pyaml-env
+
+pip install pyzbar
+
+brew install zbar
+
+vim config/config.yml
+
+brew install opencv 
+(This command can take some time to install, please be patient)
+
 python3 iot_client_camera.py
+
+```
+
+To monitor commands in MQTT use the below command in a new terminal
+
+```
+mosquitto_sub -t "#" -h localhost -v
+
 ```
 
 ## How to read QR code?
