@@ -11,8 +11,6 @@ from pyzbar.pyzbar import ZBarSymbol
 from pyaml_env import parse_config, BaseConfig
 
 config = BaseConfig(parse_config('./config/config.yml'))
-dt_now = datetime.datetime.now()
-dt_now_format = dt_now.strftime('%Y-%m-%d-%H%M%S')
 
 
 def take_photo():
@@ -20,6 +18,8 @@ def take_photo():
     This will take a picture using a USB camera
     and save an img file.
     '''
+    dt_now = datetime.datetime.now()
+    dt_now_format = dt_now.strftime('%Y-%m-%d-%H%M%S')
     # Connect to capture device
     cap = cv2.VideoCapture(
         config.client_camera.vid_cap
@@ -40,7 +40,7 @@ def capture_qr_code():
     cap = cv2.VideoCapture(
         config.client_camera.vid_cap)
     if cap.isOpened() is False:
-        raise "IO Error" # pylint: disable-msg=E0702
+        raise "IO Error"  # pylint: disable-msg=E0702
 
     while True:
         ret, frame = cap.read()

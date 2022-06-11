@@ -32,4 +32,4 @@ controller:
     camera: !ENV 'device/${CONTROLLER_USER}/order/${CLIENT_CAMERA_USER}'
 qr:
   code:
-    - 589SD463215SW657asd3321ad123ADGA
+    - "589SD463215SW657asd3321ad123ADGA"
