@@ -3,6 +3,10 @@ install:
 		python3 -m pip install -r ./config/requirements.txt &&\
 			pip3 install -r ./config/requirements.txt
 
+install_raspberrypi:
+	python3 -m pip install -r ./config/requirements_raspberrypi.txt &&\
+		pip3 install -r ./config/requirements_raspberrypi.txt
+
 lint:
 	find . -type f -name "*.py" | xargs pylint 
 

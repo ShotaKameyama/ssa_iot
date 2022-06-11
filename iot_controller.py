@@ -2,7 +2,6 @@
 This file works as a controller that supports the following:
 1. When door lock is opened/closed, controller orders camera to take a picture.
 '''
-import time
 from pyaml_env import parse_config, BaseConfig
 from module.mqtt_connector import connect_mqtt, print_connect, print_message
 
@@ -40,9 +39,7 @@ def on_message(client, userdata, msg):
             config.mqtt.qos)
     if req in config.qr.code:
         print("...checking QR/RFID Code")
-        # time.sleep(3)
         print("...Code Verified")
-        # time.sleep(1)
         print("...Door Open")
         client.publish(
             config.controller.publish.lock,

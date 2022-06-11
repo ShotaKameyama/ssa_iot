@@ -1,10 +1,12 @@
 '''
 This module will detect the RFID, decode and send
 RFID data to controller.
+This only runs on Raspberry pi.
+Hence, checking pylint on import module is disabled.
 '''
 from time import sleep
-from RPi import GPIO
-from mfrc522 import SimpleMFRC522
+from RPi import GPIO  # pylint: disable-msg=E0401
+from mfrc522 import SimpleMFRC522  # pylint: disable-msg=E0401
 from paho.mqtt import publish
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig

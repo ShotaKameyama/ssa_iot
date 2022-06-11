@@ -20,7 +20,3 @@ flake8-html
 opencv-python
 matplotlib
 pyzbar
-
-# RFID MFRC522
-spidev
-mfrc522
