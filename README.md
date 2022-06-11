@@ -114,6 +114,38 @@ python3 -m venv pymyenv
 
 if you don't have the `mosquitto.conf` file, make sure that you have run `./setup.sh`.
 
+# How to enable TLS on Mosquitto
+
+Requirement:
+Certificate Authority (CA) server – OpenSSL for the self-sign certificate in this case. It could be signed by an online CA server for the public trust certificate.
+
+## In the CA server:
+Generate a CA server key pair with password protection.
+```
+openssl genrsa -des3 -out ca.key 4096
+```
+Request the certificate with the required information, including Country Name, State, Locality, Organization, Unit Name, CA server hostname (Common Name) and Email address.
+```
+openssl req -x509 -new -key ca.key -sha256 -days 365 -out ca.crt
+```
+## In the Broker server:
+Generate a broker server key pair with password protection.
+```
+openssl genrsa -out server.key 4096
+```
+Request the certificate with the required information, including Country Name, State, Locality, Organization, Unit Name, broker server hostname (Common Name) and Email address.
+```
+openssl req -new -key server.key -sha256 -days 365 -out server.csr
+```
+## In the CA server (self-sign):
+Copy the request file server.csr to the CA server to verify and sign the certificate.
+```
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
+```
+## In the Broker server
+Copy the signed certificate file server.crt and CA server certificate ca.crt to the Broker server to the Keystore. Update the mosquito configuration file and the related IoT device to use TLS for the MQTT transaction.
+
+
 # How to do perf test
 
 ## Prerequisite
