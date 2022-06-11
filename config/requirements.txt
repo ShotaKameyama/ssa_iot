@@ -3,9 +3,9 @@ paho-mqtt
 # Utility
 pyaml-env
 
-# Test
-pytest
-pytest-html
+# Camera
+opencv-python
+pyzbar
 
 # perf test
 locust
@@ -16,7 +16,5 @@ pylint
 flake8
 flake8-html
 
-# Camera
-opencv-python
-matplotlib
-pyzbar
+# SAST
+bandit

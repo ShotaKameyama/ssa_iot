@@ -11,10 +11,11 @@ lint:
 	find . -type f -name "*.py" | xargs pylint 
 
 bandit:
-	bandit -r . --configfile ./config/bandit.yaml -f html -o static/reports/bandit_report.html -v
+	bandit -r . --configfile ./config/bandit.yml -f html -o static/reports/bandit_report.html -v
 
 flake8:
-	flake8
+	flake8 --format=html --htmldir='static/reports/' --statistics &&\
+		mv static/reports/index.html static/reports/flake8_report.html
 
 check:
 	flake8
