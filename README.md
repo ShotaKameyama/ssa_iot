@@ -146,9 +146,33 @@ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out s
 Copy the signed certificate file server.crt and CA server certificate ca.crt to the Broker server to the Keystore. Update the mosquito configuration file and the related IoT device to use TLS for the MQTT transaction.
 
 
-# How to do perf test
+# How to run tests
 
-## Prerequisite
+## Test Report Repository
+
+The exported documents are published below:
+- Locust Result at [static/reports/locust_report](https://shotakameyama.github.io/ssa_iot/static/reports/locust_report)
+- Flake8 result at [static/reports/flake8_report](https://shotakameyama.github.io/ssa_iot/static/reports/flake8_report)
+- Bandit result at [static/reports/bandit_report](https://shotakameyama.github.io/ssa_iot/static/reports/bandit_report)
+
+
+## Guide Enforcement & SAST
+
+PyLint/Flake8/Bandit are used for the test.
+
+```
+make lint
+make flake8
+make bandit
+```
+
+## Perf Test
+
+1. run `locust`
+2. Open `http://0.0.0.0:8089/` on your browser
+3. Set the values and start the test
+
+### Prerequisite
 
 - MacOS: You need to install the following libraries to pass `make install`
   - `brew install postgresql`
@@ -160,11 +184,6 @@ Copy the signed certificate file server.crt and CA server certificate ca.crt to 
     - Ref: [confluent-kafka-python github issue](https://github.com/confluentinc/confluent-kafka-python/issues/1190)
     - ` mkdir ~/lib && ln -s $(brew --prefix zbar)/lib/libzbar.dylib ~/lib/libzbar.dylib`
 
-## How to run perf test
-
-1. run `locust`
-2. Open `http://0.0.0.0:8089/` on your browser
-3. Set the values and start the test
 
 # How to contribute
 
@@ -172,7 +191,7 @@ To contribute to this project, follow these steps:
 
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.
-<!-- 3. Make your changes and check with: `make check` -->
+3. Make your changes and check with: `make check`
 4. Commit them: `git commit -m '<commit_message>'`
 5. Push to the original branch: `git push origin <branch>`
 6. Create the pull request.
