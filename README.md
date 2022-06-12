@@ -48,32 +48,19 @@ This IoT system consists of 4 instances:
 You should start 4 instances parallel.
 
 Instance 1
-
 ```
-First run
 brew install librdkafka
 
-then
 make install
 
-To view brew services to make sure mosquitto has started
-brew services list
-
-then run
-git branch
 git log
 git pull
 
-then
 mosquitto -c config/mosquitto.conf
 
-and
-brew services start mosquitto
- 
 ```
 
 Instance 2
-
 ```
 cd ssa_iot
 
@@ -83,7 +70,6 @@ python3 iot_controller.py
 ```
 
 Instance 3
-
 ```
 cd ssa_iot 
 
@@ -93,7 +79,6 @@ python3 iot_client_doorlock.py
 ```
 
 Instance 4
-
 ```
 First run these commands:
 
@@ -109,14 +94,6 @@ brew install opencv
 (This command can take some time to install, please be patient)
 
 python3 iot_client_camera.py
-
-```
-
-To monitor commands in MQTT use the below command in a new terminal
-
-```
-mosquitto_sub -t "#" -h localhost -v
-
 ```
 
 ## How to read QR code?
