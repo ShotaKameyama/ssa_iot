@@ -16,6 +16,7 @@ def on_connect(client, userdata, flags, rc):
     subscribe controller message.
     '''
     print_connect(client, userdata, flags, rc)
+    # Camera subscribe controller topic
     client.subscribe(
         config.client_camera.subscribe.controller)
     print("Subscribed to: " + config.client_camera.subscribe.controller)
@@ -30,6 +31,7 @@ def on_message(client, userdata, msg):
     '''
     print_message(client, userdata, msg)
     req = str(msg.payload.decode("utf-8"))
+    # When receive camera message, take a photo and publish a message to controller
     if req == "Capture":
         take_photo()
         client.publish(
@@ -39,6 +41,7 @@ def on_message(client, userdata, msg):
 
 
 if __name__ == "__main__":
+    # Main program to connect MQTT broker
     connect_mqtt(
         config.client_camera.user,
         config.client_camera.password,

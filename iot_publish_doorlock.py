@@ -1,11 +1,12 @@
 """
-iot_publish_doorlock.py without auth and tls
+iot_publish_doorlock.py without tls
 """
 
 import sys
 from paho.mqtt import publish
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
+
 config = BaseConfig(parse_config('./config/config.yml'))
 
 if len(sys.argv) == 1:
@@ -26,5 +27,6 @@ if sys.argv[1] in ("Open", "Close"):
             'username': config.controller.user,
             'password': config.controller.password
         })
+    # Publish MQTT message
     print("published to: " + config.controller.publish.lock)
     print("payload: " + sys.argv[1])
