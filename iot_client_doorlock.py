@@ -34,6 +34,7 @@ def on_message(client, userdata, msg):
     '''
     req = str(msg.payload)
     print_message(client, userdata, msg)
+    # When receive Door message, publish a message to controller
     if req in door_requests:
         client.publish(
             config.client_lock.publish.controller,
@@ -42,6 +43,7 @@ def on_message(client, userdata, msg):
 
 
 if __name__ == "__main__":
+    # Main program to connect MQTT broker
     connect_mqtt(
         config.client_lock.user,
         config.client_lock.password,

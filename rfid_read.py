@@ -10,16 +10,18 @@ from mfrc522 import SimpleMFRC522  # pylint: disable-msg=E0401
 from paho.mqtt import publish
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
-config = BaseConfig(parse_config('./config/config.yml'))
 
+config = BaseConfig(parse_config('./config/config.yml'))
 reader = SimpleMFRC522()
 
+# Try to read the RFID card
 try:
     while True:
         print("Hold a tag near the reader")
         rfid_id, rfid_body = reader.read()
         print(rfid_id)
         print(rfid_body)
+        # Publish RFID body message to controller
         publish.single(
             config.client_camera.publish.controller,
             payload=rfid_body,
@@ -35,5 +37,6 @@ try:
         sleep(5)
 
 except KeyboardInterrupt:
+    # Reset the program port
     GPIO.cleanup()
     raise

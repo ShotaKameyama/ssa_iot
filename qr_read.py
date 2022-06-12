@@ -7,14 +7,16 @@ from paho.mqtt import publish
 import paho.mqtt.client as mqtt
 from pyaml_env import parse_config, BaseConfig
 from module.camera import capture_qr_code
-config = BaseConfig(parse_config('./config/config.yml'))
 
+config = BaseConfig(parse_config('./config/config.yml'))
 qr = capture_qr_code()
 
+# If capture image is a QR code
 if qr:
     print("QR code detected...")
     time.sleep(5)
     print("Send a message to controller")
+    # Publish the qr code sting to controller
     publish.single(
         config.client_camera.publish.controller,
         payload=qr,
